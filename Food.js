@@ -1,48 +1,26 @@
 class Food {
     constructor() {
         this.image = loadImage("Milk.png");
+        this.foodStock=0;
+        this.lastFed;
+    }
+    updateFoodStock(foodStock) {
+        this.foodStock=foodStock;
+    }
+     getFedTime() {
+   this.lastFed= lastFed;
     }
     
+    deductFood(){
+    if(this.foodStock>0){
+        this.foodStock=this.foodStock-1; 
+    }
+  }
     getFoodStock() {
-        var foodStockRef = database.ref('food');
-        foodStockRef.on("value", (data)=>{
-        foodCount = data.val();
-        });
+       return this.foodStock
     }
 
-    updateFoodStock(foodStockToUpdate) {
-        database.ref('/').update({
-            food: foodStockToUpdate
-        });
-    }
-
-    getFedTime() {
-        fedTime = database.ref('lastFed');
-        fedTime.on("value", (data)=>{
-            lastFed = data.val();
-        });
-    }
-
-    updateFedTime(){
-        database.ref('/').update({
-            lastFed: hour()
-        });
-    }
-
-    async start(){
-        var foodRef = await database.ref('food').once("value");
-        if(foodRef.exists()) {
-            foodCount = foodRef.val();
-        }
-
-        var lastFed = await database.ref('lastFed').once("value");
-        if(lastFed.exists()) {
-            fedTime = lastFed.val();
-        }
-
-      }
-
-    display() {
+     display() {
         textSize(15);
         fill("white");
         stroke(5);
@@ -50,8 +28,10 @@ class Food {
 
         var x = 80, y = 100;
         imageMode(CENTER);
-        if(foodS != 0) {
-            for(var i = 0; i < foodS; i++) {
+        image(this.image,720,220,70,70);
+         
+        if(this.foodStock != 0) {
+            for(var i = 0; i < this.foodStock; i++) {
                 if(i % 10 === 0) {
                     x = 80;
                     y = y + 50;
